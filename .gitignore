@@ -1,0 +1,6 @@
+# JetBrains
+.idea
+
+# Visual Studio Code
+.vscode
+tsconfig.json
