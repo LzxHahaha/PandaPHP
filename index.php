@@ -32,3 +32,4 @@ $request = new Request(
     $body
 );
 
+var_dump($request);
