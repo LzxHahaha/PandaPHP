@@ -18,14 +18,6 @@ class Router {
 		return Router::$routeTable;
 	}
 
-	static public function init() {
-		if (isset(Router::$routeTable)) {
-			return;
-		}
-
-		Router::$routeTable = new RouteTreeNode('', [], []);
-	}
-
 	static private function _insert(array $route, string &$method, &$handler, RouteTreeNode &$current) {
 		$arrLen = count($route);
 		$value = $arrLen > 0 ? $route[0] : "";
@@ -128,23 +120,50 @@ class Router {
 		}
 	}
 
+	static public function init() {
+		if (isset(Router::$routeTable)) {
+			return;
+		}
+
+		Router::$routeTable = new RouteTreeNode("", [], []);
+	}
+
 	static public function routerMatch(string $route, string $method, &$params) {
 		$routeArr = explode('/', $route);
+		if (count($routeArr) > 1 && end($routeArr) === "") {
+			array_pop($routeArr);
+		}
 
-		array_unshift($routeArr, "");
 		$result = Router::_routerMatch($routeArr, $method, Router::$routeTable, $params);
 		if (isset($result)) {
 			return $result;
 		}
 
-		// TODO: 404 handler
 		throw new Exceptions\NoFoundException();
 	}
 
 	static public function add(string $route, string $method, &$handler) {
 		$routeArr = explode('/', $route);
+		if (count($routeArr) > 1 && $routeArr[0] === "") {
+			array_shift($routeArr);
+		}
+		if (count($routeArr) > 1 && end($routeArr) === "") {
+			array_pop($routeArr);
+		}
+
 
 		// TODO: 增加路由合法检查
+
+		// 当路由为"/"或""时单独处理
+		if (count($routeArr) === 1 && $routeArr[0] === "") {
+			if (isset(Router::$routeTable->handler[$method])) {
+				// TODO: throw...
+			}
+			else {
+				Router::$routeTable->handler[$method] = $handler;
+			}
+			return;
+		}
 
 		Router::_insert($routeArr, $method, $handler, Router::$routeTable);
 	}

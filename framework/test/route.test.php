@@ -40,6 +40,7 @@ use Framework\Router;
 
 	$counter = 1;
 	$testFunc($counter++, '/', 'GET');
+	$testFunc($counter++, '', 'GET');
 	$testFunc($counter++, '/a', 'POST');
 	$testFunc($counter++, '/a', 'GET');
 	$testFunc($counter++, '/a/b', 'GET');
