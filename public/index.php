@@ -2,6 +2,9 @@
 namespace Framework;
 
 require_once('../framework/base/Request.class.php');
+$appConfig = require_once('../config/app.php');
+
+$GLOBALS['DEBUG'] = $appConfig['debug'];
 
 $method = $_SERVER["REQUEST_METHOD"];
 $headers = getallheaders();
