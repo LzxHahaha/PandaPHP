@@ -19,7 +19,7 @@ use Framework\Router;
 	Router::get('/', function () {echo 'GET /';});
 	Router::get('/a', function () {echo 'GET /a';});
 	Router::get('/a/b', function () {echo 'GET /a/b';});
-	Router::get('/b/:id', function () {echo 'GET /b/:c';});
+	Router::get('/b/:id', function ($params) {echo 'GET /b/:id, id=', $params['id'];});
 	Router::post('/a', function () {echo 'POST /a';});
 	Router::post('/a/b', function () {echo 'POST /a/b';});
 
