@@ -21,8 +21,10 @@
 |	├── exceptions: 常用异常定义
 |	├── test: 测试
 |	└── ...
-├── router.php: 路由文件
-└── index.php: 入口文件
+├── public: 辅助工具
+|	├── index.php: 入口文件
+|	└── ...
+└── router.php: 路由文件
 ```
 
 ## 计划目标

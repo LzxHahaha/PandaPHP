@@ -1,7 +1,7 @@
 <?php
 namespace Framework;
 
-require_once('./framework/base/Request.class.php');
+require_once('../framework/base/Request.class.php');
 
 $method = $_SERVER["REQUEST_METHOD"];
 $headers = getallheaders();
