@@ -1,11 +1,20 @@
 <?php
 namespace Framework;
 
-require_once('../framework/base/Request.class.php');
-$appConfig = require_once('../config/app.php');
+spl_autoload_register(function ($class) {
+	$tmp = explode("\\", $class);
+	$file = '../framework/base/'.end($tmp).'.class.php';
+	if (file_exists($file)) {
+		require_once $file;
+	}
+}, false);
 
-$GLOBALS['DEBUG'] = $appConfig['debug'];
+spl_autoload_register(function ($class) {
+	$tmp = explode("\\", $class);
+	require_once '../framework/exceptions/'.end($tmp).'.class.php';
+}, false);
 
+$route = $_SERVER['PATH_INFO'] === 'PATH_INFO' ? "/" : $_SERVER['PATH_INFO'];
 $method = $_SERVER["REQUEST_METHOD"];
 $headers = getallheaders();
 $contentType = $headers["Content-Type"];
@@ -28,11 +37,21 @@ if (strcasecmp($method, 'POST') == 0 && isset($contentType)) {
 }
 
 $request = new Request(
-    $_SERVER['PATH_INFO'],
+    $route,
     $method,
     $headers,
     $_GET,
     $body
 );
 
-var_dump($request);
+Router::init();
+
+require_once '../router.php';
+
+try {
+	$func = Router::routerMatch($request);
+	$func($request);
+}
+catch (\Exception $exc) {
+	echo $exc->getMessage();
+}

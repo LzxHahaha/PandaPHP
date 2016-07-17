@@ -4,7 +4,7 @@ namespace Framework\Exceptions;
 use Exception;
 
 class IllegalRoutingException extends Exception {
-	public function __construct() {
-		parent::__construct("Illegal Route Definition", 100401, null);
+	public function __construct(string $route) {
+		parent::__construct("Illegal Route Definition: [".$route."]", 100401, null);
 	}
 }

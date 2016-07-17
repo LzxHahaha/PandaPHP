@@ -1,11 +1,6 @@
 <?php
 namespace Framework;
 
-include_once '../exceptions/NoFoundException.php';
-include_once '../exceptions/MethodNotAllowedException.php';
-
-use Closure;
-
 /**
  * 路由类，记录路由规则，匹配相应路由
  *
@@ -128,18 +123,18 @@ class Router {
 		Router::$routeTable = new RouteTreeNode("", [], []);
 	}
 
-	static public function routerMatch(string $route, string $method, &$params) {
-		$routeArr = explode('/', $route);
+	static public function routerMatch(Request $request) {
+		$routeArr = explode('/', $request->route);
 		if (count($routeArr) > 1 && end($routeArr) === "") {
 			array_pop($routeArr);
 		}
 
-		$result = Router::_routerMatch($routeArr, $method, Router::$routeTable, $params);
+		$result = Router::_routerMatch($routeArr, $request->method, Router::$routeTable, $request->params);
 		if (isset($result)) {
-			return $result;
+			return $result->handler[$request->method];
 		}
 
-		throw new Exceptions\NoFoundException();
+		throw new Exceptions\NotFoundException();
 	}
 
 	static public function add(string $route, string $method, &$handler) {

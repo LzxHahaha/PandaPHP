@@ -12,6 +12,6 @@ use Exception;
 
 class MethodNotAllowedException extends Exception {
 	public function __construct() {
-		parent::__construct("Method Not Allowed", 405, null);
+		parent::__construct("Method Not Allowed.", 405, null);
 	}
 }
