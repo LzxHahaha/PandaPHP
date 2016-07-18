@@ -9,7 +9,7 @@ class Request {
     private $body = [];
 	private $params = [];
 
-    public function __construct(string $route, string $method, Array $headers = [], Array $query = [], Array $body = []) {
+    public function __construct($route, $method, Array $headers = [], Array $query = [], Array $body = []) {
         $this->route = $route;
         $this->method = $method;
         $this->headers = $headers;
@@ -26,25 +26,25 @@ class Request {
         }
     }
 
-    public function headers(string $key) {
+    public function headers($key) {
     	if (array_key_exists($key, $this->headers)) {
     		return $this->headers[$key];
 	    }
     }
 
-    public function body(string $key) {
+    public function body($key) {
     	if (array_key_exists($key, $this->body)) {
     		return $this->body[$key];
 	    }
     }
 
-    public function params(string $key) {
+    public function params($key) {
     	if (array_key_exists($key, $this->params)) {
     		return $this->params[$key];
 	    }
     }
 
-    public function query(string $key) {
+    public function query($key) {
     	if (array_key_exists($key, $this->query)) {
     		return $this->query[$key];
 	    }
