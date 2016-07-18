@@ -16,8 +16,11 @@ spl_autoload_register(function ($class) {
 
 $route = $_SERVER['PATH_INFO'] === 'PATH_INFO' ? "/" : $_SERVER['PATH_INFO'];
 $method = $_SERVER["REQUEST_METHOD"];
+
+require_once '../framework/utils/utils.php';
+
 $headers = getallheaders();
-$contentType = $headers["Content-Type"];
+$contentType = $headers["CONTENT-TYPE"];
 $body = [];
 
 // 根据Content Type解析body
