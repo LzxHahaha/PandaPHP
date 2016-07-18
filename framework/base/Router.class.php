@@ -13,7 +13,7 @@ class Router {
 		return Router::$routeTable;
 	}
 
-	static private function _insert(array $route, string &$method, &$handler, RouteTreeNode &$current) {
+	static private function _insert(array $route, &$method, &$handler, RouteTreeNode &$current) {
 		$arrLen = count($route);
 		$value = $arrLen > 0 ? $route[0] : "";
 		$isFound = false;
@@ -69,7 +69,7 @@ class Router {
 	 * @return RouteTreeNode|null 返回匹配的节点，若查找失败则返回NULL
 	 * @throws Exceptions\MethodNotAllowedException 当不包含请求的方法时抛出此异常
 	 */
-	static private function _routerMatch(array $route, string &$method, RouteTreeNode &$current, &$params) {
+	static private function _routerMatch(array $route, &$method, RouteTreeNode &$current, &$params) {
 		$arrLen = count($route);
 		$value = $arrLen > 0 ? $route[0] : "";
 
@@ -137,7 +137,7 @@ class Router {
 		throw new Exceptions\NotFoundException();
 	}
 
-	static public function add(string $route, string $method, &$handler) {
+	static public function add($route, $method, &$handler) {
 		$routeArr = explode('/', $route);
 		if (count($routeArr) > 1 && $routeArr[0] === "") {
 			array_shift($routeArr);
@@ -163,11 +163,11 @@ class Router {
 		Router::_insert($routeArr, $method, $handler, Router::$routeTable);
 	}
 
-	static public function get(string $route, $handle) {
+	static public function get($route, $handle) {
 		Router::add($route, 'GET', $handle);
 	}
 
-	static public function post(string $route, $handle) {
+	static public function post($route, $handle) {
 		Router::add($route, 'POST', $handle);
 	}
 }
@@ -189,7 +189,7 @@ class RouteTreeNode {
 	 * @param array $handler [method=>func] 请求方法对应的函数
 	 * @param array $children 子节点，默认为空数组
 	 */
-	public function __construct(string $route, array $handler = [], array $children = []) {
+	public function __construct($route, array $handler = [], array $children = []) {
 		$this->self = $route;
 		$this->handler = $handler;
 		$this->children = $children;
