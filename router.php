@@ -16,6 +16,6 @@ Router::get('/hello/:word', function ($request) {
 
 Router::post('/test/:param', function ($request) {
 	echo 'param: ', $request->params('param'),
-		'<br>', 'body: ', $request->body('body'),
-		'<br>', 'query: ', $request->query('query');
+	'<br>', 'body: ', $request->body('body'),
+	'<br>', 'query: ', $request->query('query');
 });
