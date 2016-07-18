@@ -1,18 +1,7 @@
 <?php
 namespace Framework;
 
-spl_autoload_register(function ($class) {
-	$tmp = explode("\\", $class);
-	$file = '../framework/base/'.end($tmp).'.class.php';
-	if (file_exists($file)) {
-		require_once $file;
-	}
-}, false);
-
-spl_autoload_register(function ($class) {
-	$tmp = explode("\\", $class);
-	require_once '../framework/exceptions/'.end($tmp).'.class.php';
-}, false);
+require_once '../framework/autoload.php';
 
 $route = $_SERVER['PATH_INFO'] === 'PATH_INFO' ? "/" : $_SERVER['PATH_INFO'];
 $method = $_SERVER["REQUEST_METHOD"];
