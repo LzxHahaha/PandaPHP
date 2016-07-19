@@ -1,6 +1,6 @@
 <?php
 
-use Framework\Router;
+use Framework\Base\Router;
 
 Router::get('/', function () {
 	echo "Hello get!";

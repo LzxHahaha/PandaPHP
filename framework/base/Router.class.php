@@ -1,5 +1,7 @@
 <?php
-namespace Framework;
+namespace Framework\Base;
+
+use Framework\Exceptions;
 
 /**
  * 路由类，记录路由规则，匹配相应路由

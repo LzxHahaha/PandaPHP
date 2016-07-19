@@ -1,6 +1,9 @@
 <?php
 namespace Framework;
 
+use Framework\Base\Request;
+use Framework\Base\Router;
+
 require_once 'autoload.php';
 require_once 'utils/getallheaders.php';
 

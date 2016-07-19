@@ -1,5 +1,5 @@
 <?php
-namespace Framework;
+namespace Framework\Base;
 
 class Request {
     private $route;
