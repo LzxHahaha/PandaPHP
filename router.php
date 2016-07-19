@@ -15,6 +15,14 @@ Router::get('/hello/:word',
 	function ($request) { echo 'GET hello ' . $request->params('word'); }
 );
 
+Router::get('/test/:param',
+	function ($request) {
+	    echo "I'll kill this request!<br/>";
+		$request->end();
+    },
+	function ($request) { echo 'GET hello ' . $request->params('param'); }
+);
+
 Router::post('/test/:param', function ($request) {
 	echo 'param: ', $request->params('param'),
 	'<br>', 'body: ', $request->body('body'),

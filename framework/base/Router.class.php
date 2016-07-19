@@ -165,11 +165,11 @@ class Router {
 		Router::_insert($routeArr, $method, $handlers, Router::$routeTable);
 	}
 
-	static public function get($route, &...$handlers) {
+	static public function get($route, ...$handlers) {
 		Router::add($route, 'GET', $handlers);
 	}
 
-	static public function post($route, &...$handlers) {
+	static public function post($route, ...$handlers) {
 		Router::add($route, 'POST', $handlers);
 	}
 }
