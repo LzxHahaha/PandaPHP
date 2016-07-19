@@ -1,6 +1,6 @@
 {
   "name": "Panda PHP",
   "tagline": "",
-  "body": "# 喵",
+  "body": "# Panda PHP\r\n\r\n## 路由\r\n```\r\nRouter::get('/foo/:bar', function ($request) {\r\n    echo 'param \"bar\" is ', $requset->params('bar'), '<br>';\r\n    echo 'query \"query\" is ', $requset->params('query', 'nothing'), '<br>';\r\n});\r\n```\r\n\r\n## 中间件\r\n```\r\nRouter::get('/foo',\r\n    function ($request) {\r\n        echo \"I'm middleware!\";\r\n    },\r\n    function ($request) {\r\n        echo 'GET /foo'\r\n    }\r\n);\r\n\r\nRouter::get('/bar',\r\n    function ($request) {\r\n        echo \"I'll kill this request!\";\r\n        $request->end();\r\n    },\r\n    function ($request) {\r\n        echo 'GET /bar'\r\n    }\r\n);\r\n```\r\n\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }

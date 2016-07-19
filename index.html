@@ -20,7 +20,39 @@
 
     <section class="main-content">
       <h1>
-<a id="喵" class="anchor" href="#%E5%96%B5" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>喵</h1>
+<a id="panda-php" class="anchor" href="#panda-php" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Panda PHP</h1>
+
+<h2>
+<a id="路由" class="anchor" href="#%E8%B7%AF%E7%94%B1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>路由</h2>
+
+<pre><code>Router::get('/foo/:bar', function ($request) {
+    echo 'param "bar" is ', $requset-&gt;params('bar'), '&lt;br&gt;';
+    echo 'query "query" is ', $requset-&gt;params('query', 'nothing'), '&lt;br&gt;';
+});
+</code></pre>
+
+<h2>
+<a id="中间件" class="anchor" href="#%E4%B8%AD%E9%97%B4%E4%BB%B6" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>中间件</h2>
+
+<pre><code>Router::get('/foo',
+    function ($request) {
+        echo "I'm middleware!";
+    },
+    function ($request) {
+        echo 'GET /foo'
+    }
+);
+
+Router::get('/bar',
+    function ($request) {
+        echo "I'll kill this request!";
+        $request-&gt;end();
+    },
+    function ($request) {
+        echo 'GET /bar'
+    }
+);
+</code></pre>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/LzxHahaha/PandaPHP">Panda PHP</a> is maintained by <a href="https://github.com/LzxHahaha">LzxHahaha</a>.</span>
