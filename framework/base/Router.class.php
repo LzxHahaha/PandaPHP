@@ -70,6 +70,7 @@ class Router {
 	 * @param array $params 记录URL中的params
 	 * @return RouteTreeNode|null 返回匹配的节点，若查找失败则返回NULL
 	 * @throws Exceptions\MethodNotAllowedException 当不包含请求的方法时抛出此异常
+	 * @throws Exceptions\NotFoundException 未查找到节点，或查找到的节点不包含handler时抛出此异常
 	 */
 	static private function _routerMatch(array $route, &$method, RouteTreeNode &$current, &$params) {
 		$arrLen = count($route);
@@ -101,6 +102,9 @@ class Router {
 		// 没有子节点
 		else if ($arrLen === 1) {
 			if (($isMatchCurrent || $isParam) && isset($current->handler)) {
+				if (count($current->handler) === 0) {
+					throw new Exceptions\NotFoundException();
+				}
 				if (!isset($current->handler[$method])) {
 					throw new Exceptions\MethodNotAllowedException();
 				}
