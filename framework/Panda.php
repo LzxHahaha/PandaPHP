@@ -44,8 +44,10 @@ Router::init();
 require_once '../router.php';
 
 try {
-	$func = Router::routerMatch($request);
-	$func($request);
+	$handlers = Router::routerMatch($request);
+	foreach ($handlers as $handler) {
+		$handler($request);
+	}
 }
 catch (\Exception $exc) {
 	echo $exc->getMessage();

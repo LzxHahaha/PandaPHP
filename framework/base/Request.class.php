@@ -61,4 +61,8 @@ class Request {
 		    return $defaultValue;
 	    }
     }
+
+    public function end() {
+    	exit(1);
+    }
 }
