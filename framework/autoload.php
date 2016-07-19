@@ -11,7 +11,6 @@ spl_autoload_register(function ($class) {
 	$tmp = explode("\\", $class);
 	if (count($tmp) > 2) {
 		$file = __DIR__ . '/' . strtolower($tmp[1]) . '/' . end($tmp) . '.class.php';
-		var_dump($tmp);
 		echo  $file . '<br>';
 		if (file_exists($file)) {
 			require_once $file;
