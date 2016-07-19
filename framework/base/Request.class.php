@@ -9,6 +9,8 @@ class Request {
     private $body = [];
 	private $params = [];
 
+	public $middlewareData = [];
+
     public function __construct($route, $method, Array $headers = [], Array $query = [], Array $body = []) {
         $this->route = $route;
         $this->method = $method;
