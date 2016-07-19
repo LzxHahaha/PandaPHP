@@ -1,5 +1,7 @@
 <?php
-namespace Framework;
+namespace Framework\Base;
+
+use Framework\Exceptions;
 
 /**
  * 路由类，记录路由规则，匹配相应路由
@@ -13,7 +15,7 @@ class Router {
 		return Router::$routeTable;
 	}
 
-	static private function _insert(array $route, &$method, &$handler, RouteTreeNode &$current) {
+	static private function _insert(array $route, &$method, &$handlers, RouteTreeNode &$current) {
 		$arrLen = count($route);
 		$value = $arrLen > 0 ? $route[0] : "";
 		$isFound = false;
@@ -33,16 +35,16 @@ class Router {
 			// 当重复时递归检查，否则直接把后面的都加进去
 			if (!$isFound) {
 				$next = new RouteTreeNode($value, [], []);
-				Router::_insert($tail, $method, $handler, $next);
+				Router::_insert($tail, $method, $handlers, $next);
 				array_push($current->children, $next);
 			}
 			else {
-				Router::_insert($tail, $method, $handler, $current->children[$index]);
+				Router::_insert($tail, $method, $handlers, $current->children[$index]);
 			}
 		}
 		else if ($arrLen === 1) {
 			if (!$isFound) {
-				$next = new RouteTreeNode($value, [$method=>$handler], []);
+				$next = new RouteTreeNode($value, [$method=>$handlers], []);
 				array_push($current->children, $next);
 			}
 			else {
@@ -50,7 +52,7 @@ class Router {
 					// TODO: throw...
 				}
 				else {
-					$current->children[$index]->handler[$method] = $handler;
+					$current->children[$index]->handler[$method] = $handlers;
 				}
 			}
 		}
@@ -137,7 +139,7 @@ class Router {
 		throw new Exceptions\NotFoundException();
 	}
 
-	static public function add($route, $method, &$handler) {
+	static public function add($route, $method, &$handlers) {
 		$routeArr = explode('/', $route);
 		if (count($routeArr) > 1 && $routeArr[0] === "") {
 			array_shift($routeArr);
@@ -155,20 +157,20 @@ class Router {
 				// TODO: throw...
 			}
 			else {
-				Router::$routeTable->handler[$method] = $handler;
+				Router::$routeTable->handler[$method] = $handlers;
 			}
 			return;
 		}
 
-		Router::_insert($routeArr, $method, $handler, Router::$routeTable);
+		Router::_insert($routeArr, $method, $handlers, Router::$routeTable);
 	}
 
-	static public function get($route, $handle) {
-		Router::add($route, 'GET', $handle);
+	static public function get($route, &...$handlers) {
+		Router::add($route, 'GET', $handlers);
 	}
 
-	static public function post($route, $handle) {
-		Router::add($route, 'POST', $handle);
+	static public function post($route, &...$handlers) {
+		Router::add($route, 'POST', $handlers);
 	}
 }
 

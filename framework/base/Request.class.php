@@ -1,5 +1,5 @@
 <?php
-namespace Framework;
+namespace Framework\Base;
 
 class Request {
     private $route;
@@ -26,27 +26,43 @@ class Request {
         }
     }
 
-    public function headers($key) {
+    public function headers($key, $defaultValue = NULL) {
     	if (array_key_exists($key, $this->headers)) {
     		return $this->headers[$key];
 	    }
+	    else {
+		    return $defaultValue;
+	    }
     }
 
-    public function body($key) {
+    public function body($key, $defaultValue = NULL) {
     	if (array_key_exists($key, $this->body)) {
     		return $this->body[$key];
 	    }
+	    else {
+	    	return $defaultValue;
+	    }
     }
 
-    public function params($key) {
+    public function params($key, $defaultValue = NULL) {
     	if (array_key_exists($key, $this->params)) {
     		return $this->params[$key];
 	    }
+	    else {
+		    return $defaultValue;
+	    }
     }
 
-    public function query($key) {
+    public function query($key, $defaultValue = NULL) {
     	if (array_key_exists($key, $this->query)) {
     		return $this->query[$key];
 	    }
+	    else {
+		    return $defaultValue;
+	    }
+    }
+
+    public function end() {
+    	exit(1);
     }
 }

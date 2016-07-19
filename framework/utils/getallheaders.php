@@ -1,5 +1,6 @@
 <?php
-namespace Framework;
+namespace Framework\Utils;
+
 if (!function_exists('getallheaders')) {
     function getallheaders()
     {
@@ -22,4 +23,9 @@ if (!function_exists('getallheaders')) {
         }
         return $headers;
     }
-} 
+}
+else {
+	function getallheaders() {
+		return \getallheaders();
+	}
+}

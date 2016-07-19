@@ -9,16 +9,16 @@
 
 spl_autoload_register(function ($class) {
 	$tmp = explode("\\", $class);
-	$file = __DIR__ . '/base/'.end($tmp).'.class.php';
-	if (file_exists($file)) {
-		require_once $file;
+	if (count($tmp) > 2) {
+		$file = __DIR__ . '/' . strtolower($tmp[1]) . '/' . end($tmp) . '.class.php';
+		if (file_exists($file)) {
+			require_once $file;
+		}
 	}
-}, false);
-
-spl_autoload_register(function ($class) {
-	$tmp = explode("\\", $class);
-	$file = __DIR__ . '/exceptions/'.end($tmp).'.class.php';
-	if (file_exists($file)) {
-		require_once $file;
+	else {
+		$file = __DIR__ . '/' . end($tmp).'.class.php';
+		if (file_exists($file)) {
+			require_once $file;
+		}
 	}
-}, false);
+});
