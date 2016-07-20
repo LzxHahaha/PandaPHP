@@ -6,6 +6,7 @@ use Framework\Base\Router;
 
 require_once 'autoload.php';
 require_once 'utils/getallheaders.php';
+require_once 'utils/readConfig.php';
 
 $route = $_SERVER['PATH_INFO'] === 'PATH_INFO' ? "/" : $_SERVER['PATH_INFO'];
 $method = $_SERVER["REQUEST_METHOD"];
@@ -39,16 +40,18 @@ $request = new Request(
     $body
 );
 
-Router::init();
-
-require_once '../router.php';
-
 try {
+	Router::init();
+	require_once '../router.php';
 	$handlers = Router::routerMatch($request);
+
 	foreach ($handlers as $handler) {
 		$handler($request);
 	}
 }
 catch (\Exception $exc) {
 	echo '<h1>' . $exc->getCode() . ' ' . $exc->getMessage() . '</h1>';
+	if (APP_DEBUG) {
+		var_dump($exc->getTrace());
+	}
 }
