@@ -12,6 +12,6 @@ use Exception;
 
 class UnknownException extends Exception {
 	public function __construct() {
-		parent::__construct("Unknown Exception.", 100401, null);
+		parent::__construct("Unknown Exception.", 100001, null);
 	}
 }

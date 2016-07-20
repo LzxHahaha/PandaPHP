@@ -50,5 +50,5 @@ try {
 	}
 }
 catch (\Exception $exc) {
-	echo $exc->getMessage();
+	echo '<h1>' . $exc->getCode() . ' ' . $exc->getMessage() . '</h1>';
 }

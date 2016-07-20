@@ -15,7 +15,7 @@ Router::get('/hello/:word',
 	function ($request) { echo 'GET hello ' . $request->params('word'); }
 );
 
-Router::get('/test/:param',
+Router::get('/test',
 	function ($request) {
 	    echo "I'll kill this request!<br/>";
 		$request->end();
@@ -23,8 +23,10 @@ Router::get('/test/:param',
 	function ($request) { echo 'GET hello ' . $request->params('param'); }
 );
 
-Router::post('/test/:param', function ($request) {
-	echo 'param: ', $request->params('param'),
-	'<br>', 'body: ', $request->body('body'),
-	'<br>', 'query: ', $request->query('query');
+Router::group(["prefix"=>"/prefix"], function () {
+	Router::get("foo", function () { echo "/prefix/foo"; });
+});
+
+Router::group(["middleware"=>function () { echo "middleware"; }], function () {
+	Router::get("foo", function () { echo "/foo"; });
 });
