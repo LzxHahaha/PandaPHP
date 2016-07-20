@@ -11,10 +11,6 @@ use Framework\Exceptions;
 class Router {
 	static private $routeTable = NULL;
 
-	static public function getRouterTable() {
-		return Router::$routeTable;
-	}
-
 	static private function _insert(array $route, &$method, &$handlers, RouteTreeNode &$current) {
 		$arrLen = count($route);
 		$value = $arrLen > 0 ? $route[0] : "";
@@ -49,7 +45,7 @@ class Router {
 			}
 			else {
 				if (isset($current->children[$index]->handler[$method])) {
-					// TODO: throw...
+					throw new Exceptions\DuplicationException($value);
 				}
 				else {
 					$current->children[$index]->handler[$method] = $handlers;
@@ -57,7 +53,7 @@ class Router {
 			}
 		}
 		else {
-			// TODO: throw...
+			throw new Exceptions\UnknownException();
 		}
 	}
 
