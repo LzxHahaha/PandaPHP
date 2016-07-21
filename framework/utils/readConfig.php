@@ -10,4 +10,6 @@ namespace Framework\Utils;
 
 $appConfig = include (__DIR__ . '/../../config/app.php');
 
-define('APP_DEBUG', $appConfig['debug']);
+foreach ($appConfig as $key=>$value) {
+	define('APP_' . strtoupper($key), $value);
+}
