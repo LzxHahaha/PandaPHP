@@ -65,6 +65,6 @@ class Request {
     }
 
     public function end() {
-    	exit(1);
+    	exit;
     }
 }
