@@ -2,6 +2,7 @@
 namespace Framework;
 
 use Framework\Base\Request;
+use Framework\Base\Response;
 use Framework\Base\Router;
 
 require_once 'autoload.php';
@@ -39,6 +40,7 @@ $request = new Request(
     $_GET,
     $body
 );
+$response = new Response();
 
 try {
 	Router::init();
@@ -46,7 +48,7 @@ try {
 	$handlers = Router::routerMatch($request);
 
 	foreach ($handlers as $handler) {
-		$handler($request);
+		$handler($request, $response);
 	}
 }
 catch (\Exception $exc) {

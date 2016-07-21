@@ -2,31 +2,31 @@
 
 use Framework\Base\Router;
 
-Router::get('/', function () {
-	echo "Hello get!";
+Router::get('/', function ($req, $res) {
+	$res->send("Hello get!");
 });
 
-Router::post('/', function () {
-	echo "Hello post!";
+Router::post('/', function ($req, $res) {
+	$res->json(["status" => 1, "message" => "success"]);
 });
 
 Router::get('/hello/:word',
-	function () { echo 'middleware is work!<br/>'; },
-	function ($request) { echo 'GET hello ' . $request->params('word'); }
+	function ($req, $res) { $res->send('middleware is work!<br/>'); },
+	function ($req, $res) { $res->send('GET hello ' . $req->params('word')); }
 );
 
 Router::get('/test',
-	function ($request) {
+	function ($req) {
 	    echo "I'll kill this request!<br/>";
-		$request->end();
+		$req->end();
     },
-	function ($request) { echo 'GET hello ' . $request->params('param'); }
+	function ($req, $res) { $res->send('GET hello ' . $req->params('param')); }
 );
 
 Router::group(["prefix"=>"/prefix"], function () {
-	Router::get("foo", function () { echo "/prefix/foo"; });
+	Router::get("foo", function ($req, $res) { $res->send("/prefix/foo"); });
 });
 
-Router::group(["middleware"=>function () { echo "middleware"; }], function () {
-	Router::get("foo", function () { echo "/foo"; });
+Router::group(["middleware"=>function ($req, $res) { $res->send("middleware"); }], function () {
+	Router::get("foo", function ($req, $res) { $res->send("/foo"); });
 });

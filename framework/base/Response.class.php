@@ -21,12 +21,16 @@ class Response {
 		header($key, $value);
 	}
 
+	public function removeHeader($key) {
+		header_remove($key);
+	}
+
 	public function view($name) {
 		throw new \Exception('Not implement.');
 	}
 
 	public function send($content) {
-		echo $content;
+		print_r($content);
 	}
 
 	public function json($obj) {
