@@ -44,10 +44,12 @@ class DB {
 		}
 	}
 
-	static public function execute($sql, $params) {
+	static public function execute($sql, $params = []) {
 		self::checkConnect();
 		$stmt = self::$dbConnector->prepare($sql);
-		return $stmt->execute($params);
+		$stmt->execute($params);
+
+		return $stmt->fetchAll();
 	}
 
 	static public function close() {
