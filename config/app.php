@@ -7,5 +7,13 @@
  */
 
 return [
-	'debug' => true
+	'debug' => true,
+
+	'database' => 'Mysql',
+
+	'mysql_host' => 'localhost',
+	'mysql_port' => 3306,
+	'mysql_dbname' => '',
+	'mysql_username' => '',
+	'mysql_password' => ''
 ];
