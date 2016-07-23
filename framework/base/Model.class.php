@@ -13,19 +13,48 @@ use Framework\Database\DB;
 // TODO: 设计接口
 
 class Model {
-	protected $table;
+	static private $instance = null;
 
+	protected $table;
 	protected $hidden = [];
 
-	public function __construct($table) {
-		$this->table = $table;
+	protected static function getInstance() {
+		if (is_null(self::$instance)) {
+			self::$instance = new static();
+		}
+
+		return self::$instance;
 	}
 
-	public function all() {
+	static public function all() {
 		DB::connect();
 
-		// TODO: 增加hidden筛选
-		$result = DB::execute('select * from '.$this->table);
-		return $result;
+		$model = new static();
+		$query = DB::execute('select * from ' . $model->table);
+
+		if (isset($model->hidden) && count($model->hidden)) {
+			foreach ($query as $item) {
+				foreach ($model->hidden as $key) {
+					unset($item[$key]);
+				}
+			}
+		}
+
+		return $query;
+	}
+
+	static public function select($columns) {
+		if (is_null($columns) || count($columns) === 0) {
+			return [];
+		}
+
+		$model = new static();
+		$columns = array_diff($columns, $model->hidden);
+		if (count($columns) === 0) {
+			return [];
+		}
+
+		$query = DB::execute('select ' . join(',', $columns) . ' from ' . $model->table);
+		return $query;
 	}
 }
