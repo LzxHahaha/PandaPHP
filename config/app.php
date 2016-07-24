@@ -13,7 +13,7 @@ return [
 
 	'mysql_host' => 'localhost',
 	'mysql_port' => 3306,
-	'mysql_dbname' => '',
-	'mysql_username' => '',
-	'mysql_password' => ''
+	'mysql_dbname' => 'panda',
+	'mysql_username' => 'root',
+	'mysql_password' => 'lzx123'
 ];

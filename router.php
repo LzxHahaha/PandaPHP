@@ -15,7 +15,7 @@ Router::get('/hello/:word',
 	function ($req, $res) { $res->send('GET hello ' . $req->params('word')); }
 );
 
-Router::get('/test',
+Router::get('/middleware',
 	function ($req) {
 	    echo "I'll kill this request!<br/>";
 		$req->end();
@@ -29,4 +29,8 @@ Router::group(["prefix"=>"/prefix"], function () {
 
 Router::group(["middleware"=>function ($req, $res) { $res->send("middleware"); }], function () {
 	Router::get("foo", function ($req, $res) { $res->send("/foo"); });
+});
+
+Router::group(['prefix'=>'test'], function () {
+	Router::get('all', 'TestController@all');
 });

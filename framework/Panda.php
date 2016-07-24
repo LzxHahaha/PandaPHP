@@ -18,7 +18,15 @@ try {
 	$handlers = Router::routerMatch($request);
 
 	foreach ($handlers as $handler) {
-		$handler($request, $response);
+		if (is_string($handler)) {
+			$tmp = explode('@', $handler);
+			$class = "Controller\\" . $tmp[0];
+			$function = $tmp[1];
+			(new $class)->$function($request, $response);
+		}
+		else {
+			$handler($request, $response);
+		}
 	}
 }
 catch (\Exception $exc) {

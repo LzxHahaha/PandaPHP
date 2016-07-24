@@ -16,3 +16,12 @@ spl_autoload_register(function ($class) {
 		}
 	}
 });
+
+spl_autoload_register(function ($class) {
+	$tmp = explode("\\", $class);
+	$className = array_pop($tmp);
+	$file = __DIR__ . '/../' . strtolower(join('/', $tmp)) . '/' . $className . '.class.php';
+	if (file_exists($file)) {
+		require_once $file;
+	}
+});

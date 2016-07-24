@@ -44,12 +44,12 @@ class DB {
 		}
 	}
 
-	static public function execute($sql, $params = []) {
+	static public function execute($sql, $params = [], $fetch_style = PDO::ATTR_DEFAULT_FETCH_MODE, $fetch_argument = NULL, array $ctor_args = array()) {
 		self::checkConnect();
 		$stmt = self::$dbConnector->prepare($sql);
 		$stmt->execute($params);
 
-		return $stmt->fetchAll();
+		return $stmt->fetchAll($fetch_style, $fetch_argument, $ctor_args);
 	}
 
 	static public function close() {
