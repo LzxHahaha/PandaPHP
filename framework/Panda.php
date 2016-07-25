@@ -8,6 +8,7 @@ use Framework\Base\Router;
 require_once 'utils/readConfig.php';
 require_once 'autoload.php';
 require_once 'utils/getallheaders.php';
+require_once 'utils/error.php';
 
 $request = Request::initFromRequest();
 $response = new Response();
@@ -30,9 +31,12 @@ try {
 	}
 }
 catch (\Exception $exc) {
-	echo '<h1>' . $exc->getCode() . ' ' . $exc->getMessage() . '</h1>';
-	if (APP_DEBUG) {
-		// TODO: 实现优美的错误显示
-		var_dump($exc->getTrace());
+	$code = $exc->getCode();
+	// 大于100 000 的都是框架错误，其他的尽可能与HTTP相同
+	if ($code < 100000) {
+		error($exc);
+	}
+	else {
+		error($exc, 500);
 	}
 }
