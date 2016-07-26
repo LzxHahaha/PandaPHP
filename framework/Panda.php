@@ -32,7 +32,7 @@ try {
 }
 catch (\Exception $exc) {
 	$code = $exc->getCode();
-	// 大于100 000 的都是框架错误，其他的尽可能与HTTP相同
+	// 大于100 000 的都是框架定义的错误，其他的尽可能与HTTP相同
 	if ($code < 100000) {
 		error($exc);
 	}

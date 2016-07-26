@@ -229,6 +229,18 @@ class Router {
 		Router::add($route, 'POST', $handlers);
 	}
 
+	static public function put($route, ...$handlers) {
+		Router::add($route, 'PUT', $handlers);
+	}
+
+	static public function delete($route, ...$handlers) {
+		Router::add($route, 'DELETE', $handlers);
+	}
+
+	static public function option($route, ...$handlers) {
+		Router::add($route, 'OPTION', $handlers);
+	}
+
 	static public function group(array $public, callable $callback) {
 		if (isset($public["prefix"])) {
 			$routeArr = explode('/', $public["prefix"]);
