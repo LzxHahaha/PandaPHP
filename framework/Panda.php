@@ -2,53 +2,41 @@
 namespace Framework;
 
 use Framework\Base\Request;
+use Framework\Base\Response;
 use Framework\Base\Router;
 
+require_once 'utils/readConfig.php';
 require_once 'autoload.php';
 require_once 'utils/getallheaders.php';
+require_once 'utils/error.php';
 
-$route = $_SERVER['PATH_INFO'] === 'PATH_INFO' ? "/" : $_SERVER['PATH_INFO'];
-$method = $_SERVER["REQUEST_METHOD"];
-$headers = Utils\getallheaders();
-$contentType = isset($headers["CONTENT-TYPE"]) ? $headers["CONTENT-TYPE"] : NULL;
-$body = [];
+$request = Request::initFromRequest();
+$response = new Response();
 
-if (!is_null($contentType)) {
-	// 根据Content Type解析body
-	if (strcasecmp($method, 'POST') == 0) {
-		switch ($contentType) {
-			case 'application/x-www-form-urlencoded':
-				$body = $_POST;
-				break;
-			case 'application/json':
-				$body = (array)json_decode(file_get_contents("php://input"));
-				break;
-			default:
-				// 其他的先不管
-				$body = $_POST;
-				break;
+try {
+	Router::init();
+	require_once '../router.php';
+	$handlers = Router::routerMatch($request);
+
+	foreach ($handlers as $handler) {
+		if (is_string($handler)) {
+			$tmp = explode('@', $handler);
+			$class = "Controller\\" . $tmp[0];
+			$function = $tmp[1];
+			(new $class)->$function($request, $response);
+		}
+		else {
+			$handler($request, $response);
 		}
 	}
 }
-
-$request = new Request(
-    $route,
-    $method,
-    $headers,
-    $_GET,
-    $body
-);
-
-Router::init();
-
-require_once '../router.php';
-
-try {
-	$handlers = Router::routerMatch($request);
-	foreach ($handlers as $handler) {
-		$handler($request);
-	}
-}
 catch (\Exception $exc) {
-	echo $exc->getMessage();
+	$code = $exc->getCode();
+	// 大于100 000 的都是框架定义的错误，其他的尽可能与HTTP相同
+	if ($code < 100000) {
+		error($exc);
+	}
+	else {
+		error($exc, 500);
+	}
 }
