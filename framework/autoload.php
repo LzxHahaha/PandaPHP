@@ -10,7 +10,7 @@
 spl_autoload_register(function ($class) {
 	$tmp = explode("\\", $class);
 	if ($tmp[0] === 'Framework' && count($tmp) === 3) {
-		$file = __DIR__ . '/' . strtolower($tmp[1]) . '/' . end($tmp) . '.class.php';
+		$file = FRAMEWORK_ROOT . strtolower($tmp[1]) . '/' . end($tmp) . '.class.php';
 		if (file_exists($file)) {
 			require_once $file;
 		}
@@ -20,7 +20,7 @@ spl_autoload_register(function ($class) {
 spl_autoload_register(function ($class) {
 	$tmp = explode("\\", $class);
 	$className = array_pop($tmp);
-	$file = __DIR__ . '/../' . strtolower(join('/', $tmp)) . '/' . $className . '.class.php';
+	$file = PROJECT_ROOT . strtolower(join('/', $tmp)) . '/' . $className . '.class.php';
 	if (file_exists($file)) {
 		require_once $file;
 	}

@@ -20,9 +20,14 @@ class Error {
 		self::$errorView[$code] = $view;
 	}
 
-	static public function getErrorView($code) {
+	static public function getErrorView($code, \Exception $exc = null) {
 		if (!isset(self::$errorView[$code])) {
-			return self::$errorView[500];
+			if (is_null($exc)) {
+				return self::$errorView[500];
+			}
+			else if (APP_DEBUG) {
+				return self::$errorView[500] . '<p>' . $exc->getTrace() . '</p>';
+			}
 		}
 
 		return self::$errorView[$code];
